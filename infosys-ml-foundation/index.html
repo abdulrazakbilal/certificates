@@ -2,18 +2,48 @@
 <html>
 <head>
     <title>Infosys ML Foundation Certificate</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        body{
+            text-align:center;
+            background:#f5f5f5;
+            padding:20px;
+        }
+
+        canvas{
+            max-width:100%;
+            height:auto;
+            box-shadow:0 0 15px rgba(0,0,0,0.15);
+        }
+    </style>
 </head>
 <body>
 
 <h1>Machine Learning Foundation Certification</h1>
 
-<p>Issued by Infosys Springboard</p>
+<canvas id="pdf-canvas"></canvas>
 
-<p>
-<a href="certificate.pdf">
-View Certificate
-</a>
-</p>
+<script>
+pdfjsLib.getDocument('certificate.pdf').promise.then(function(pdf) {
+
+    pdf.getPage(1).then(function(page) {
+
+        const scale = 2;
+        const viewport = page.getViewport({ scale });
+
+        const canvas = document.getElementById('pdf-canvas');
+        const context = canvas.getContext('2d');
+
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        page.render({
+            canvasContext: context,
+            viewport: viewport
+        });
+    });
+});
+</script>
 
 </body>
 </html>
